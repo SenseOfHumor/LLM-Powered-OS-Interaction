@@ -1,7 +1,7 @@
 [project]
 name = "terminal-agent"
 version = "0.1.0"
-description = ""
+description = "LLM-powered terminal agent for natural language OS interaction"
 authors = [
     {name = "SWAPNIL",email = "swa2314@gmail.com"}
 ]
@@ -15,6 +15,8 @@ dependencies = [
     "black (>=25.12.0,<26.0.0)"
 ]
 
+[tool.poetry]
+package-mode = false
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

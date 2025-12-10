@@ -53,6 +53,11 @@ install: ## Install dependencies and set up the project
 	@echo "  2. Run 'make pull-model' to download LLM"
 	@echo "  3. Run 'make test-connection' to verify setup"
 
+lock: ## Update and lock dependencies
+	@echo "$(GREEN)Updating and locking dependencies...$(NC)"
+	$(POETRY) lock
+	@echo "$(GREEN)✓ Dependencies updated and locked!$(NC)"
+
 setup: install start-ollama pull-model test-connection ## Complete setup: install, start Ollama, pull model, test
 
 start-ollama: ## Start Ollama service (run in separate terminal)

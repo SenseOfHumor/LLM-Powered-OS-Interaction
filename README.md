@@ -2,6 +2,28 @@
 
 A powerful, LLM-powered terminal agent that lets you control your computer using natural language. Built with Python, it uses local LLMs (via Ollama) to understand your requests and perform file operations, system commands, and intelligent searches.
 
+## 🚀 Quick Start
+
+```bash
+# Clone and setup
+git clone https://github.com/SenseOfHumor/terminal-agent.git
+cd terminal-agent
+make lock
+make install
+
+# Start Ollama (in new terminal)
+make start-ollama
+
+# Download model
+make pull-model
+
+# Try it out!
+make ask QUERY="what is fuzzy matching?"
+make do QUERY="find readme file"
+```
+
+> **💡 Tip:** Run `make help` to see all available commands!
+
 ## ✨ Features
 
 ### Core Capabilities
@@ -121,11 +143,15 @@ make dry-run QUERY="delete old files"
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/SenseOfHumor/terminal-agent.git
-   cd terminal-agent
+   git clone https://github.com/SenseOfHumor/LLM-Powered-OS-Interaction
+   cd LLM-Powered-OS-Interaction
    ```
 
 2. **Install dependencies with Poetry**
+  ```bash
+   make install
+   ```
+  **Or manually**
    ```bash
    poetry install
    ```
@@ -222,42 +248,70 @@ poetry run python agent_cli.py do "search for 'TODO' in python files"
 
 **File Search & Reading**
 ```bash
-poetry run python agent_cli.py do "find test_agent.txt and read it"
+# With Makefile (easy)
+make do QUERY="find test_agent.txt and read it"
+make example-search  # Quick demo
+
+# With Poetry (manual)
 poetry run python agent_cli.py do "find all python files in the project"
 ```
 
 **File Management**
 ```bash
-poetry run python agent_cli.py do "copy test.txt to downloads folder"
-poetry run python agent_cli.py do "move old_file.txt to archive directory"
+# With Makefile
+make do QUERY="copy test.txt to downloads folder"
+make do QUERY="move old_file.txt to archive directory"
+make example-info  # Show file information demo
+
+# With Poetry
 poetry run python agent_cli.py do "show me information about pyproject.toml"
 ```
 
 **Content Search**
 ```bash
-poetry run python agent_cli.py do "search for 'def execute' in core directory"
+# With Makefile
+make do QUERY="search for 'def execute' in core directory"
+make example-search-content  # Quick demo
+
+# With Poetry
 poetry run python agent_cli.py do "find all TODOs in python files"
 ```
 
 **Archives**
 ```bash
-poetry run python agent_cli.py do "extract project.zip to extracted_folder"
+# With Makefile
+make do QUERY="extract project.zip to extracted_folder"
+
+# With Poetry
+poetry run python agent_cli.py do "extract archive.tar.gz"
 ```
 
 **File Comparison**
 ```bash
-poetry run python agent_cli.py do "compare old_config.json with new_config.json"
+# With Makefile
+make do QUERY="compare old_config.json with new_config.json"
+
+# With Poetry
+poetry run python agent_cli.py do "compare file1.txt with file2.txt"
 ```
 
 **PDF Summarization**
 ```bash
-poetry run python agent_cli.py do "summarize presentation.pdf"
+# With Makefile
+make do QUERY="summarize presentation.pdf"
+make example-summarize  # Demo with README
+
+# With Poetry
+poetry run python agent_cli.py do "summarize document.pdf"
 ```
 
 **Dry Run Mode**
 ```bash
-# See what would happen without executing
-poetry run python agent_cli.py do "delete all temporary files" --dry-run
+# With Makefile (easy)
+make dry-run QUERY="delete all temporary files"
+
+# With Poetry
+poetry run python agent_cli.py do "delete files" --dry-run
 ```
 
 ---
@@ -440,7 +494,11 @@ poetry run python agent_cli.py do "run cat /full/path/to/file.txt"
 
 **Solution 1: Use a faster model**
 ```bash
-# Smaller, faster models
+# With Makefile
+make switch-model MODEL=llama3.2:1b
+make switch-model MODEL=phi3:mini
+
+# Or manually
 ollama pull llama3.2:1b
 ollama pull phi3:mini
 ```
@@ -464,7 +522,11 @@ nvidia-smi  # NVIDIA GPUs
 
 **Solution: Use a smaller model**
 ```bash
-# Quantized models use less RAM
+# With Makefile
+make switch-model MODEL=llama3.2:3b-q4_0
+make list-models  # See all available models
+
+# Or manually
 ollama pull llama3.2:3b-q4_0
 ```
 
@@ -474,6 +536,7 @@ ollama pull llama3.2:3b-q4_0
 
 ```
 terminal-agent/
+├── Makefile              # Easy command shortcuts
 ├── agent_cli.py          # Main CLI entry point
 ├── core/
 │   ├── executor.py       # Action execution & display
@@ -489,6 +552,14 @@ terminal-agent/
 │   └── welcome_prompt.md # System prompts
 ├── pyproject.toml        # Dependencies
 └── README.md             # This file
+```
+
+### Quick Maintenance
+```bash
+make clean      # Remove temporary files and caches
+make backup     # Create timestamped backup
+make diagnose   # Check system status
+make help       # See all available commands
 ```
 
 ---
