@@ -1,4 +1,4 @@
-# Terminal Agent
+# LLM Powered OS Interaction
 
 A powerful, LLM-powered terminal agent that lets you control your computer using natural language. Built with Python, it uses local LLMs (via Ollama) to understand your requests and perform file operations, system commands, and intelligent searches.
 
