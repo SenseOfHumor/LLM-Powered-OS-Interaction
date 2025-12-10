@@ -91,8 +91,33 @@ A powerful, LLM-powered terminal agent that lets you control your computer using
 - **Poetry** (for dependency management)
 - **Ollama** (for local LLM inference)
 - **LLM Model** (e.g., `llama3.2:3b` or similar)
+- **make** (optional, for easier commands)
 
-### Installation
+### Quick Start with Makefile (Recommended)
+
+The project includes a comprehensive Makefile for easy interaction:
+
+```bash
+# See all available commands
+make help
+
+# Complete setup (install + start Ollama + pull model)
+make install        # Install dependencies
+make start-ollama   # Start Ollama (in new terminal)
+make pull-model     # Download LLM model
+make test-connection # Verify everything works
+
+# Ask questions
+make ask QUERY="what is Python?"
+
+# Execute actions
+make do QUERY="find readme file"
+
+# Preview actions without executing
+make dry-run QUERY="delete old files"
+```
+
+### Manual Installation
 
 1. **Clone the repository**
    ```bash
@@ -136,7 +161,47 @@ A powerful, LLM-powered terminal agent that lets you control your computer using
 
 ## 📖 Usage
 
-### Two Modes
+### Using the Makefile (Easy Mode)
+
+```bash
+# Ask questions (no actions)
+make ask QUERY="explain fuzzy matching"
+
+# Execute actions
+make do QUERY="list files in downloads"
+make do QUERY="find all python files"
+make do QUERY="search for TODO in project"
+
+# Dry run (preview only)
+make dry-run QUERY="delete temporary files"
+
+# Quick examples
+make example-search           # Search for files
+make example-list             # List directory
+make example-info             # Show file info
+make example-summarize        # Summarize a file
+make example-search-content   # Search within files
+
+# Development
+make clean                    # Clean temporary files
+make lint                     # Run linters
+make format                   # Format code
+make check-deps               # Check for updates
+make update-deps              # Update dependencies
+
+# Model management
+make list-models              # List available models
+make switch-model MODEL=llama3.2:7b  # Switch model
+
+# Utilities
+make backup                   # Backup project
+make diagnose                 # Run diagnostics
+make uninstall                # Remove everything
+```
+
+### Using Poetry Directly
+
+#### Two Modes
 
 #### Ask Mode - Information Only
 Get answers without executing any actions:
@@ -224,7 +289,11 @@ The agent automatically maps common folder names:
 
 **Solution 1: Check Ollama is running**
 ```bash
-# Start Ollama service
+# With Makefile
+make start-ollama   # In separate terminal
+make test-connection
+
+# Or manually
 ollama serve
 ```
 
@@ -237,7 +306,12 @@ OLLAMA_HOST=127.0.0.1:11435 ollama serve
 self.base_url = "http://127.0.0.1:11435"
 ```
 
-**Solution 3: Use a remote Ollama instance**
+**Solution 3: Run diagnostics**
+```bash
+make diagnose   # Check system status
+```
+
+**Solution 4: Use a remote Ollama instance**
 ```python
 # In service/llm_client.py
 self.base_url = "http://your-remote-host:11434"
@@ -249,10 +323,13 @@ self.base_url = "http://your-remote-host:11434"
 
 **Solution: Pull the model**
 ```bash
-# List available models
-ollama list
+# With Makefile
+make list-models                    # See available models
+make pull-model                     # Pull default model
+make switch-model MODEL=llama3.2:7b # Pull specific model
 
-# Pull a specific model
+# Or manually
+ollama list
 ollama pull llama3.2:3b
 
 # Update service/llm_client.py to match
@@ -266,10 +343,10 @@ self.model = "llama3.2:3b"
 **Solution 1: Rephrase your request**
 ```bash
 # Instead of vague:
-poetry run python agent_cli.py do "do something with files"
+make do QUERY="do something with files"
 
 # Be specific:
-poetry run python agent_cli.py do "list all text files in current directory"
+make do QUERY="list all text files in current directory"
 ```
 
 **Solution 2: Check model compatibility**
